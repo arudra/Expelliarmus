@@ -10,6 +10,13 @@
     <string name="connection_type_host">Host</string>
     <string name="connection_type_client">Client</string>
 
+    <string name="disconnected">Disconnected</string>
+
+    <string name="send_message">Send a message</string>
+    <string name="send">Send</string>
+
+    <string name="health">100</string>
+
 
 
 

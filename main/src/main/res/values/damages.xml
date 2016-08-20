@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="stupefy">25</integer>
+    <integer name="expelliarmus">30</integer>
+    <integer name="confringo">40</integer>
+    <integer name="crucio">70</integer>
+    <integer name="sectumsempera">50</integer>
+    <integer name="incendio">40</integer>
+    <integer name="protego">-60</integer>
+    <integer name="avada_kedavra">100</integer>
+
+</resources>
