@@ -21,10 +21,17 @@
         android:layout_below="@+id/text_status"/>
 
     <Button
-        android:id="@+id/button_connection"
+        android:id="@+id/button_voice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner_type"
+        android:text="Cast Spell"/>
+
+    <Button
+        android:id="@+id/button_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_voice"
         android:text="Advertise/Connect"/>
 
     <ListView

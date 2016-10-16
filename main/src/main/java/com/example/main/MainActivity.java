@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Connections.MessageListener,
         Connections.EndpointDiscoveryListener,
         View.OnClickListener {
-
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1;
     private GoogleApiClient mGoogleApiClient;
 
     private Spinner mTypeSpinner;
@@ -73,16 +73,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //https://code.tutsplus.com/tutorials/google-play-services-using-the-nearby-connections-api--cms-24534
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        checkVoiceRecognition();
+        //checkVoiceRecognition();
         initViews();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        mGoogleApiClient.connect(); // this is where megs program starts
     }
 
     @Override
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         payload = spell + "," + time;
         return payload;
     };
-    public void checkVoiceRecognition() {
+    /*public void checkVoiceRecognition() {
         // Check if voice recognition is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
@@ -139,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             Toast.makeText(this, "Voice recognizer not present",
                     Toast.LENGTH_SHORT).show();
         }
-    }
-    public void speak(View view) {
+    }*/
+    public void speak() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         // Specify the calling package to identify your application
@@ -148,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .getPackage().getName());
 
         // Display an hint to the user about what he should say.
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, metTextHint.getText()
-                .toString());
+        /*intent.putExtra(RecognizerIntent.EXTRA_PROMPT, metTextHint.getText()
+                .toString());*/
 
         // Given an hint to the recognizer about what the user is going to say
         //There are two form of language model available
@@ -159,14 +160,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
 
         // If number of Matches is not selected then return show toast message
-        if (msTextMatches.getSelectedItemPosition() == AdapterView.INVALID_POSITION) {
+        /*if (msTextMatches.getSelectedItemPosition() == AdapterView.INVALID_POSITION) {
             Toast.makeText(this, "Please select No. of Matches from spinner",
                     Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
-        int noOfMatches = Integer.parseInt(msTextMatches.getSelectedItem()
-                .toString());
+        int noOfMatches = 2;
+        /*Integer.parseInt(msTextMatches.getSelectedItem()
+                .toString());*/
         // Specify how many results you want to receive. The results will be
         // sorted where the first result is the one with higher confidence.
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, noOfMatches);
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     textMatchList.set(0, convToSpell (textMatchList.get(0)));
                     // If first Match contains the 'search' word
                     // Then start web search.
-                    if (textMatchList.get(0).contains("search")) {
+                    /*if (textMatchList.get(0).contains("search")) {
 
                         String searchQuery = textMatchList.get(0);
                         searchQuery = searchQuery.replace("search","");
@@ -201,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 .setAdapter(new ArrayAdapter<String>(this,
                                         android.R.layout.simple_list_item_1,
                                         textMatchList));
-                    }
-
+                    }*/
+                    mSendEditText.setText(textMatchList.get(0));
                 }
                 //Result code for various error.
             }else if(resultCode == RecognizerIntent.RESULT_AUDIO_ERROR){
@@ -435,7 +437,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {// this is where megs prog starts
+        //https://code.tutsplus.com/tutorials/google-play-services-using-the-nearby-connections-api--cms-24534
         switch( v.getId() ) {
             case R.id.button_connection: {
                 if( mIsConnected ) {
@@ -452,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             case R.id.button_send: {
                 if( !TextUtils.isEmpty( mSendEditText.getText() ) && mIsConnected || ( mRemotePeerEndpoints != null && !mRemotePeerEndpoints.isEmpty() ) ) {
+                    speak();
                     sendMessage( mSendEditText.getText().toString() );
                     mSendEditText.setText( "" );
                 }
